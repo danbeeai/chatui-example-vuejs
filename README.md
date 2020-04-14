@@ -19,7 +19,7 @@ In command, check npm installed success
 ## 프로젝트 가져오기 (clone project)
 다운로드 (Download) : https://github.com/danbeeai/chatui-example-vuejs
 또는 (or) 
-> git clone https://github.com/danbeeai/chat-example.git
+> git clone https://github.com/danbeeai/chatui-example-vuejs
 
 ## 패키지 설치 (Install package)
 해당 경로로 이동
