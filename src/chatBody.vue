@@ -5,7 +5,7 @@
             <img :src="frogueChatLoadUrl" alt="단비가 내리면, 개구리가 운다! 단비Ai에서 제공하는 채팅창" width="300" height="300">
             <div v-if="adBuootnYn == 'true'">frogue by 단비Ai</div>
         </div>
-        <div class="frogue-pond" v-show="frogueChatViewFlag" :style="cssProps" v-bind:class="{removeBanner: adBuootnYn != 'true', opened: isOpened}" >
+        <div class="frogue-pond" v-show="frogueChatViewFlag" v-bind:class="{removeBanner: adBuootnYn != 'true', opened: isOpened}" >
             <div class="frogue-screen">
                 <div id="chatBody" class="frogue-container">
                     <!-- chat start -->
@@ -337,7 +337,6 @@
     import axios from 'axios';
     import moment from 'moment';
     import _ from 'lodash';
-    import cssVars from 'css-vars-ponyfill';
 
     export default {
         name: "chatBoby",
@@ -1277,43 +1276,8 @@
             this.getWelcomeMessage();
         },
         computed: {
-            cssProps() {
-                return {
-                    "--color-main": this.colorMain,
-                    "--color-sub": this.colorSub,
-                    "--color-button-text": this.colorButtonText,
-                    "--color-button-border": this.colorButtonBorder,
-                    "--color-button-bg": this.colorButtonBg,
-                    "--color-balloon-chatbot-bg": this.colorBalloonChatbotBg,
-                    "--color-balloon-chatbot-text": this.colorBalloonChatbotText,
-                    "--color-balloon-user-bg": this.colorBalloonUserBg,
-                    "--color-balloon-user-text": this.colorBalloonUserText,
-                    "--color-date-text": this.colorDateText,
-                    "--color-highlight": this.colorHighlight,
-                    "--color-bg": this.colorBg,
-                    "--demo-bg-img": this.demoBgImg
-                };
-            }
         },
         mounted() {
-
-            cssVars({
-                variables: {
-                    "color-main": this.colorMain,
-                    "color-sub": this.colorSub,
-                    "color-button-text": this.colorButtonText,
-                    "color-button-border": this.colorButtonBorder,
-                    "color-button-bg": this.colorButtonBg,
-                    "color-balloon-chatbot-bg": this.colorBalloonChatbotBg,
-                    "color-balloon-chatbot-text": this.colorBalloonChatbotText,
-                    "color-balloon-user-bg": this.colorBalloonUserBg,
-                    "color-balloon-user-text": this.colorBalloonUserText,
-                    "color-date-text": this.colorDateText,
-                    "color-highlight": this.colorHighlight,
-                    "color-bg": this.colorBg,
-                    "demo-bg-img": this.demoBgImg
-                }
-            });
 
             setTimeout(() => {
                 this.frogueChatViewFlag = true;
@@ -1334,6 +1298,7 @@
 
 <style lang="scss">
     /* global styles :: 캐로셀 관련된 것만 글로벌로 잡아놨음 */
+    /*
     $frogue-color-main: var(--color-main); //메인색
     $frogue-color-sub: var(--color-sub); //서브색
     $frogue-color-button-text: var(--color-button-text); //버튼 글자색
@@ -1347,23 +1312,23 @@
     $frogue-color-highlight: var(--color-highlight); // 마우스 오버 등 하이라이트 색상
     $frogue-color-bg: var(--color-bg); //frogue 전체 화면시 나오는 배경색상
     $frogue-chat-demo-bg: var(--demo-bg-img);
-    /*
-    $frogue-color-main: #0a1e5a; //메인색
+    */
+    $frogue-color-main: #555a9c; //메인색
     $frogue-color-sub: #ffffff; //서브색
-    $frogue-color-button-text: #fa002e; //버튼 글자색
-    $frogue-color-button-border: #fa002e; //버튼 라인색
+    $frogue-color-button-text: #0084ff; //버튼 글자색
+    $frogue-color-button-border: #c3c3c3; //버튼 라인색
     $frogue-color-button-bg: #ffffff; //버튼 배경색
-    $frogue-color-balloon-chatbot-bg: #fce5e8; //챗봇 말풍선 배경색
-    $frogue-color-balloon-chatbot-text: #5b5854; //챗봇 말풍선 글자색
-    $frogue-color-balloon-user-bg: #87827d; //사용자 말풍선 배경색
+    $frogue-color-balloon-chatbot-bg: #eef1f4; //챗봇 말풍선 배경색
+    $frogue-color-balloon-chatbot-text: #3d3d3d; //챗봇 말풍선 글자색
+    $frogue-color-balloon-user-bg: #555a9c; //사용자 말풍선 배경색
     $frogue-color-balloon-user-text: #ffffff; //사용자 말풍선 글자색
     $frogue-color-date-text: #9b9b9b; //날짜 글자색
     $frogue-color-highlight: #ddefff; // 마우스 오버 등 하이라이트 색상
-    $frogue-color-bg: #7d8282; //frogue 전체 화면시 나오는 배경색상
+    $frogue-color-bg: #7f8198; //frogue 전체 화면시 나오는 배경색상
     $frogue-chat-demo-bg: url(https://frogue.danbee.ai/img/chatBtn/bg_chat.png);
     //"chatbotIconimg":"https://danbee.ai/platformfile/f90748fe-1f25-4192-ab8c-94c77444b136/20200319141024-bot_icon_mod.gif",
     //"chatbotLoadimg":"https://danbee.ai/platformfile/f90748fe-1f25-4192-ab8c-94c77444b136/20200317154950-bot_loading.gif",
-    */
+
     .slide {
         color: #fff;
         position: relative;
@@ -1495,7 +1460,7 @@
     // colorDateText = '#9b9b9b'; //날짜 글자색
     // colorHighlight = '#ddefff'; // 마우스 오버 등 하이라이트 색상
     // colorBg = '#7f8198'; //frogue 전체 화면시 나오는 배경색상
-
+    /*
     $frogue-color-main: var(--color-main); //메인색
     $frogue-color-sub: var(--color-sub); //서브색
     $frogue-color-button-text: var(--color-button-text); //버튼 글자색
@@ -1509,23 +1474,23 @@
     $frogue-color-highlight: var(--color-highlight); // 마우스 오버 등 하이라이트 색상
     $frogue-color-bg: var(--color-bg); //frogue 전체 화면시 나오는 배경색상
     $frogue-chat-demo-bg: var(--demo-bg-img);
-    /*
-    $frogue-color-main: #0a1e5a; //메인색
+    */
+    $frogue-color-main: #555a9c; //메인색
     $frogue-color-sub: #ffffff; //서브색
-    $frogue-color-button-text: #fa002e; //버튼 글자색
-    $frogue-color-button-border: #fa002e; //버튼 라인색
+    $frogue-color-button-text: #0084ff; //버튼 글자색
+    $frogue-color-button-border: #c3c3c3; //버튼 라인색
     $frogue-color-button-bg: #ffffff; //버튼 배경색
-    $frogue-color-balloon-chatbot-bg: #fce5e8; //챗봇 말풍선 배경색
-    $frogue-color-balloon-chatbot-text: #5b5854; //챗봇 말풍선 글자색
-    $frogue-color-balloon-user-bg: #87827d; //사용자 말풍선 배경색
+    $frogue-color-balloon-chatbot-bg: #eef1f4; //챗봇 말풍선 배경색
+    $frogue-color-balloon-chatbot-text: #3d3d3d; //챗봇 말풍선 글자색
+    $frogue-color-balloon-user-bg: #555a9c; //사용자 말풍선 배경색
     $frogue-color-balloon-user-text: #ffffff; //사용자 말풍선 글자색
     $frogue-color-date-text: #9b9b9b; //날짜 글자색
     $frogue-color-highlight: #ddefff; // 마우스 오버 등 하이라이트 색상
-    $frogue-color-bg: #7d8282; //frogue 전체 화면시 나오는 배경색상
+    $frogue-color-bg: #7f8198; //frogue 전체 화면시 나오는 배경색상
     $frogue-chat-demo-bg: url(https://frogue.danbee.ai/img/chatBtn/bg_chat.png);
     //"chatbotIconimg":"https://danbee.ai/platformfile/f90748fe-1f25-4192-ab8c-94c77444b136/20200319141024-bot_icon_mod.gif",
     //"chatbotLoadimg":"https://danbee.ai/platformfile/f90748fe-1f25-4192-ab8c-94c77444b136/20200317154950-bot_loading.gif",
-    */
+
     *,
     body,
     html {

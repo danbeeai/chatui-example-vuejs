@@ -1,5 +1,7 @@
 
 # 환경구성 (Environment Configuration)
+문서 모드 IE 10 일때는 css에서 var(--변수) 를 사용하지 못하여
+그냥 셋팅하는 걸로 한다. 
 
 ## 노드 설치 (Install Node)
 node.js : https://nodejs.org/ko/
