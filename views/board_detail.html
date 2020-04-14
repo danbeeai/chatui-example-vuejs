@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" ng-app="danbee">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description"  content="대화형 챗봇 저작 플랫폼, NLU와 Chatflow로 지능형 대화서비스를 만들어보세요." />
+        <meta name="author" content="">
+
+        <title>danbee.Ai - 챗봇을 만드는 가장 쉬운 방법</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- web font -->
+        <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/glacial-indifference" type="text/css"/>
+
+        <!-- Animation CSS -->
+        <link href="../css/animate.css" rel="stylesheet">
+        <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="../css/style.css" rel="stylesheet">
+        <link href="../css/board.css" rel="stylesheet">
+
+    </head>
+    <body id="page-top" class="landing-page">
+
+        <div class="navbar-wrapper">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header page-scroll">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand page-scroll" href="../landing.html"><span>danbee.Ai</span></a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active" ><a href="#">Notice</a></li>
+                            <li><a class="page-scroll" href="../landing.html#ecosystem">Overview</a></li>
+                            <li><a class="page-scroll" href="http://doc.danbee.ai/" target="_blank">Docs</a></li>
+                            <li><a class="page-scroll" href="http://doc.danbee.ai/pricing.html" target="_blank">Pricing</a></li>
+                            <li><a class="page-scroll" href="../landing.html#contact">Contact</a></li>
+                            <li><a href="https://danbee.ai/platform/#/danbeelogin"><i class="fa fa-sign-in"></i>로그인</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container db-notice-board" ng-controller="boardDetailCtrl" ng-init="boardDetailInit()">
+            <!--<ol class="breadcrumb">
+                <li><a href="../landing.html">홈</a></li>
+                <li><a href="board.html">Notice</a></li>
+                <li><strong>상세</strong></li>
+            </ol>-->
+            <section class="cont-area" id="select">
+				<div class="page-header">
+					<h2 class="notice">Notice</h2>
+				</div><!--/.page-header -->
+				<article class="board-det-area small">
+					<div class="tit-area of-h" style= "height:auto">
+						<div class="pull-left" style="word-break: break-all; width:80%;"><strong class="hidden-xs hidden-sm">제목</strong>{{board.noticeTitle}}</div>
+						<div class="pull-right text-right"><strong class="hidden-xs hidden-sm">날짜</strong>{{board.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+					</div> <!--/.tit-area -->
+					<div class="board-det-cont" ng-bind-html="renderHtml(board.noticeContents)">
+
+					</div> <!--/.board-det-cont -->
+					<div class="btn-area of-h pull-right">
+						<a class="btn btn-board btn-sm" href="board.html"><span class="list">목록</span></a>
+						<!--<div class="pull-right">
+							<a class="btn btn-board btn-sm" href="board.html"><span class="list">다음<em class="gt">&gt;</em></span></a>
+						</div>-->
+					</div> <!--/.btn-area -->
+				</article> <!--/.board-det-area -->
+			</section>
+        </div>
+    <!-- import -->
+    <script src="../js/jquery-2.1.1.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins/lodash/lodash.js"></script>
+    <script src="../js/angular/angular.min.js"></script>
+    <script src="../js/angular/angular-route.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/board/index.js"></script>
+    <script src="../js/board/controllers/index.js"></script>
+    <script src="../js/board/controllers/board.controller.js"></script>
+    </body>
+</html>

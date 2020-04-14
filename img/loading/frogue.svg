@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 359.1 359.1">
+    <defs>
+        <style>
+        .frogue-app-box{fill:#4c4e9e; } <!-- 배경 라운드 박스 -->
+        .frogue-face, .frogue-hand{fill:#c3d731;} <!-- 개구리 얼굴, 손 -->
+        .frogue-talk{fill:#fff; }<!-- 말풍선 -->
+        .frogue-eye{fill:#483737;  }<!-- 개구리 눈 -->
+        .frogue-lips{fill:none;stroke:#e73817;stroke-linecap:round;stroke-miterlimit:10;stroke-width:11.69px;} <!-- 개구리 입술. fill 없음 -->
+        .anime-line-draw {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 1s linear forwards;
+        }
+        .anime-face-on{
+            animation: faceOn 0.5s ease;
+        }
+        .anime-blinking-right {
+            animation: blinking 2.5s ease-in-out infinite alternate;
+            transform-origin: 0 12%;
+        }
+        .anime-blinking-left {
+            animation: blinking 2.5s ease-in-out infinite alternate;
+            transform-origin: 0 17%;
+        }
+        .anime-hand-up{
+            animation: handUp 0.8s ease;
+        }
+        .anime-hand-wave{
+            animation: handWave 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes faceOn {
+            0% { transform : translate(0, 70px); }
+            60% { transform : translate(0, 70px); }
+            100% { transform : translate(0, 0); }
+        }
+
+        @keyframes blinking{
+
+            100% { transform : scaleY(0); }
+            95% { transform : scaleY(0); }
+            0%, 93%, 98% { transform : scaleY(1); }
+        }
+
+        @keyframes handUp{
+            0% { transform : translate(-50px, 70px); }
+            80% { transform : translate(-50px, 70px); }
+            100% { transform : translate(0, 0); }
+        }
+        @keyframes handWave {
+            100% {
+                transform: rotate(2deg);
+            }
+        }
+        </style>
+    </defs>
+    <rect class="frogue-app-box" width="359.1" height="359.1" rx="82.23" ry="82.23"/>
+
+    <!-- 개구리 얼굴-->
+    <g class="anime-face-on">
+        <path class="frogue-face " d="M218.63,20h0a33.54,33.54,0,0,0-36.8,28,102,102,0,0,0-58.72,10.35,33.46,33.46,0,0,0-26.2-18.48h0a33.55,33.55,0,0,0-37,29.46h0a33.55,33.55,0,0,0,29.47,37h0a33.33,33.33,0,0,0,23.76-6.47l69.66,59.64,26.84-73.2,1.45.2h0a33.55,33.55,0,0,0,37-29.46h0A33.54,33.54,0,0,0,218.63,20Z"/>
+        <g>
+            <path class="frogue-eye anime-blinking-left" d="M93.14,73l18.43-14.94A23.74,23.74,0,1,0,90.46,96.62h0A23.81,23.81,0,0,0,116.74,75.7h0a23.5,23.5,0,0,0-1.38-11Z">
+            </path>
+        </g>
+        <g>
+            <path class="frogue-eye anime-blinking-right" d="M216.28,53.19,233.83,39a23.68,23.68,0,0,0-16.29-9.38h0a23.75,23.75,0,1,0-5.36,47.2h0a23.81,23.81,0,0,0,26.27-20.92h0a23.54,23.54,0,0,0-1.2-10.54Z">
+            </path>
+        </g>
+    </g>
+    
+    <!-- 개구리 손 -->
+    <g class="anime-hand-up">
+        <path class="frogue-hand  anime-hand-wave " d="M335.84,87.73a11,11,0,0,0-9.13-2.94c-6.3-7.18-12.74-10.49-18.26-11.86a80.38,80.38,0,0,1,12.42-7.57,11.05,11.05,0,1,0-4-8.45c-9.21,4.7-14.54,8.6-17.59,11.68a91.53,91.53,0,0,1-6.77-16.73,11.07,11.07,0,1,0-9.24,1.68,100.89,100.89,0,0,0,8.35,20.59c-45.87,28.45-60.85,46.73-60.85,46.73s18.5,35,29.67,8c8.58-20.72,29.35-39.64,38.52-47.3,3.49-.54,11.44-.46,19.82,8.37a11,11,0,1,0,17.09-2.23Z" >
+        </path>
+    </g>
+    <polygon class="frogue-talk" points="120.77 254.55 90.52 178.18 56.94 335.11 202.03 266.55 120.77 254.55">
+    </polygon>
+    <circle class="frogue-talk" cx="176.58" cy="185.87" r="126.97"/>
+
+    <!-- 개구리 입술. fill 없음 -->
+    <path class="frogue-lips anime-line-draw" d="M250.17,174.6a67.28,67.28,0,0,1-131.28,29.5">
+    </path>
+
+</svg>

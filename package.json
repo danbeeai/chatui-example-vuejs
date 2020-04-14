@@ -1,0 +1,35 @@
+{
+    "name": "chatui-example-vuejs",
+    "description": "danbee chatbot example for vuejs project",
+    "version": "1.0.0",
+    "author": "JiamSeo <jams7777@gmail.com>",
+    "private": true,
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+        "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    },
+    "dependencies": {
+        "axios": "^0.19.2",
+        "babel-polyfill": "^6.26.0",
+        "css-vars-ponyfill": "^1.16.2",
+        "lodash": "^4.17.4",
+        "moment": "^2.22.2",
+        "vue": "^2.4.4",
+        "vue-agile": "^0.3.7"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.2",
+        "babel-preset-env": "^1.6.0",
+        "cross-env": "^5.0.5",
+        "css-loader": "^0.28.7",
+        "file-loader": "^0.11.2",
+        "node-sass": "^4.9.3",
+        "sass-loader": "^7.1.0",
+        "vue-loader": "^13.0.4",
+        "vue-template-compiler": "^2.4.3",
+        "webpack": "^3.12.0",
+        "webpack-dev-server": "^2.8.1",
+        "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
+    }
+}

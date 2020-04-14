@@ -1,0 +1,242 @@
+#frogue-container{
+    position:fixed;
+    right:80px;
+    bottom:85px;
+    z-index:10000000;
+    font-family:"Noto Sans KR", "Apple SD Gothic Neo","Nanum Barun Gothic","Helvetica","Arial","Malgun Gothic","맑은 고딕","돋움","Dotum","sans-serif" !important;
+}
+
+#frogue-container .frogue-chat{
+    right:40px;
+}
+
+.frogue-chat{
+    width: 320px !important;
+    height: 80% !important;
+    max-height: 720px !important;
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 100px !important;
+    border-radius: 16px !important;
+    background-color: transparent !important;
+    box-shadow: 0 6px 60px 0 rgba(79,98,114,0.2) !important;
+    z-index: 1000000000 !important;
+    overflow: hidden !important;
+    -webkit-animation: showw 0.25s ease-out !important;
+    animation: showw 0.25s ease-out !important;
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo","Nanum Barun Gothic","Helvetica","Arial","Malgun Gothic","맑은 고딕","돋움","Dotum","sans-serif" !important;
+    animation-name: showw !important;
+    animation-duration: 0.25s !important;
+    animation-timing-function: ease-out !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    animation-direction: normal !important;
+    animation-fill-mode: none !important;
+    animation-play-state: running !important;
+    -webkit-transform: rotate(0deg) scale(0);
+    transform: rotate(0deg) scale(0);
+    opacity: 0;
+    display: none;
+}
+
+.frogue-chat.show{
+    -webkit-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    display: block !important;
+}
+
+.frogue-launcher{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    z-index: 1000000001 !important;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    font-family: "intercom-font", "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-shadow: 0 6px 60px 0 rgba(79,98,114,0.2) !important;
+}
+
+.frogue-launcher-open-icon{
+    opacity: 1;
+    -webkit-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+}
+
+.frogue-launcher-close-icon{
+    opacity: 1;
+    -webkit-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+}
+
+.frogue-launcher.active .frogue-launcher-open-icon{
+    opacity: 0;
+    -webkit-transform: rotate(0deg) scale(0);
+    transform: rotate(0deg) scale(0);
+}
+
+.frogue-launcher.active .frogue-launcher-close-icon{
+    opacity: 1;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.frogue-launcher-open-icon,
+.frogue-launcher-close-icon{
+    cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    -webkit-transition: opacity 0.08s linear, -webkit-transform 0.16s linear;
+    transition: opacity 0.08s linear, -webkit-transform 0.16s linear;
+    transition: transform 0.16s linear, opacity 0.08s linear;
+    transition: transform 0.16s linear, opacity 0.08s linear, -webkit-transform 0.16s linear;
+}
+
+.frogue-launcher-open-icon svg{
+    width:60px;
+    height:60px;
+}
+
+.frogue-launcher-close-icon svg{
+    width:60px;
+    height:60px;
+}
+
+.frogue-fullscreen-close{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 0;
+    width: 0;
+    height: 0;
+    overflow:hidden;
+}
+
+.frogue-talkpop {
+    position: absolute;
+    color: #fff;
+    max-width: 300px;
+    width: 300px;
+    border-radius: 6px;
+    word-break: keep-all;
+    transform: translate(60px, 0px);
+    bottom: 20px;
+    font-weight: 500;
+    right: 0;
+    line-height:1.5;
+    letter-spacing:0.3px;
+    font-size:15px;
+    padding: 20px 30px;
+    background: #555a9c;
+}
+
+.frogue-talkpop::after{
+    content: "";
+    position: absolute;
+    border-left: 20px solid #555a9c;
+    border-bottom: 20px solid transparent;
+    bottom: -15px;
+    right: 15px;
+}
+
+@keyframes lookatme{
+    0%{ padding: 15px 30px; }
+    8%{ padding: 25px 30px; }
+    16%{ padding: 20px 30px;  }
+    80%{ padding: 20px 30px;  }
+    100%{ padding: 15px 30px; }
+}
+
+.look-at-me-talk{
+    animation-name: lookatme;
+    animation-duration: 4.5s;
+    animation-timing-function: cubic-bezier(0.75, 0.07, 0.11, 1.44);
+    animation-iteration-count: 3;
+}
+
+.cross{
+    position: absolute;
+    right: -3px;
+    padding: 13px 23px 13px 4px;
+    top: 1px;
+    cursor: pointer;
+}
+
+.cross-div{
+    transform: rotate(45deg);
+    position: absolute;
+    width: 11px;
+    height: 2px;
+    background: #fff;
+}
+
+.cross-div:nth-child(2){
+    transform:rotate(-45deg);
+}
+
+.frogue-talkpop-message{
+    cursor: pointer;
+}
+
+@media only screen and (max-device-width: 667px), screen and (max-width: 450px){
+    body.frogue-opened{
+        overflow:hidden;
+        position: fixed;
+    }
+    .frogue-chat{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        position: absolute;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        max-height:100% !important;
+    }
+    .frogue-launcher.active{
+        opacity: 0;
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+    .frogue-fullscreen-close{
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        z-index: 10000000000000;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+}
