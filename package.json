@@ -12,7 +12,7 @@
         "axios": "^0.19.2",
         "babel-polyfill": "^6.26.0",
         "css-vars-ponyfill": "^1.16.2",
-        "lodash": "^4.17.4",
+        "lodash": "^4.17.19",
         "moment": "^2.22.2",
         "vue": "^2.4.4",
         "vue-agile": "^0.3.7"
