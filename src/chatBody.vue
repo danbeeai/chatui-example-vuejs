@@ -230,7 +230,36 @@
                     <!-- user input area start -->
                     <div class="frogue-bottom-container animated" v-bind:class="{opened: isOpened}">
                         <!-- 열리면 클래스에 opened를 넣으면 됩니다. -->
-                        <div class="frogue-input-wrapper" v-bind:class="{'none-btn-extension': isBtnExtension != 'true'}">
+                        <!-- 자주 묻는 질문(FAQ) 및 검색 -->
+                        <div class="frogue-bottom-persistent_menu-wrap" :style="frogueFaqWrapperStyle">
+                            <!-- 검색 결과 -->
+                            <div class="frogue-search-wrap" v-show="!faqBtnActive && inputMessage">
+                                <ul class="frogue-search-wrap-ul" v-show="faqListFilterByKeyword.length > 0">
+                                    <li v-for="faqSearchResult in faqListFilterByKeyword" @click="sendFaqMessage(faqSearchResult)" v-html="faqSearchResultToHtml(faqSearchResult)"></li>
+                                </ul>
+                            </div>
+                            <!-- 자주 묻는 질문(카테고리) -->
+                            <div class="frogue-menu-wrap" v-show="faqBtnActive && faqPageActiveTab[0]" :style="faqMenuWrapStyle">
+                                <i>카테고리를 선택해주세요.</i>
+                                <button v-for="category in faqListTemp" :key="category.id" @click="selectFaqCategory(category)">{{ category.title }}</button>
+                                <span class="prev" v-show="faqCategoryList.length > 6 && currentFaqPageIndex > 0" @click="moveFaqPage('prev')"></span>
+                                <span class="next" v-show="faqCategoryList.length > 6 && currentFaqPageIndex < faqMenuLastIndex"  @click="moveFaqPage('next')"></span>
+                            </div>
+                            <!-- 자주 묻는 질문(카테고리 상세) -->
+                            <div class="frogue-menu-detail-wrap" v-show="faqBtnActive && faqPageActiveTab[1]">
+                                <div class="menu-list_tit">
+                                    <button @click="selectFaqCategory()">← 이전</button>
+                                    <p>{{ selectedFaqCategory }}</p>
+                                </div>
+                                <div class="menu-list_cont">
+                                    <ul class="menu-list_cont-ul">
+                                        <li v-show="faqListFilterByCategory.length > 0" v-for="faqSearchResult in faqListFilterByCategory" @click="sendFaqMessage(faqSearchResult)"> {{ faqSearchResult }}</li>
+                                        <li v-show="faqListFilterByCategory.length === 0">조회된 결과가 없습니다.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frogue-input-wrapper" v-bind:class="{'none-btn-extension': isBtnExtension != 'true'}" :style="frogueInputWrapperStyle">
                             <div class="toast-message" @click="toastingClose()" v-bind:class="{toasting: isToasting}">
                                 <span v-text="toastingText"></span>
                             </div>
@@ -254,6 +283,7 @@
                                     </g>
                                 </svg>
                             </button>
+                            <button class="animated btn-menu" :class="{'active': faqBtnActive }" :style="faqBtnStyle"  @click="toggleFaqBtn()"><i></i><i></i><i></i><i></i></button>
                             <div class="input-text-border">
                                 <input @click="clickedInput()" type="text" class="input-text" ref="inputbox" v-model="inputMessage" @keyup.13="sendMessage('','')" />
                             </div>
@@ -421,7 +451,14 @@
                 colorHighlight: '#ddefff', // 마우스 오버 등 하이라이트 색상
                 colorBg: '#7f8198', //ffrogue 전체 화면시 나오는 배경색상
                 adBuootnYn: 'true',  // 하단 광고 보이기
-                isBtnExtension: 'true' // 파일 처리 메뉴 보이기
+                isBtnExtension: 'true', // 파일 처리 메뉴 보이기
+
+                faqBtnActive: false, // 메뉴 오픈여부
+                faqPageActiveTab: [true, false],
+                faqCategoryList: [], // 메뉴 목록
+                questions: [], // 전체 faq 예문 목록
+                selectedFaqCategory: '', // 선택한 faq 메뉴
+                currentFaqPageIndex: 0,
             };
         },
         methods: {
@@ -429,6 +466,9 @@
                 setTimeout(()=>{
                     this.scrollDown();
                 },100);
+
+                // 자주 묻는 질문 메뉴 초기화
+                this.faqInit();
             },
             sendMessage: async function(chatbotMsg, viewSentence, parameters) {
 
@@ -590,6 +630,7 @@
                         console.log(error);
                     });
                 this.inputMessage = "";
+                this.faqInit();
             },
             getEventFlowMessge: function(eventName, sendParams) {
 
@@ -1253,6 +1294,56 @@
                     */
                 }
             },
+
+            // s: 자주묻는질문(FAQ)
+            faqInit() {
+                this.faqBtnActive = false;
+                this.faqPageActiveTab = [true, false];
+                this.selectedFaqCategory = '';
+                this.currentFaqPageIndex = 0;
+            },
+            toggleFaqBtn() {
+                this.faqBtnActive = !this.faqBtnActive;
+            },
+            selectFaqCategory(category) {
+                if(category) {
+                    if(category.title) {
+                        this.faqPageActiveTab = [false, true];
+                        this.selectedFaqCategory = category.title;
+                    }
+                } else {
+                    this.faqPageActiveTab = [true, false];
+                    this.selectedFaqCategory = '';
+                }
+            },
+            moveFaqPage(direction) {
+                if(direction === 'prev') {
+                    if(this.currentFaqPageIndex !== 0) {
+                        this.currentFaqPageIndex--;
+                    }
+                } else {
+                    if(this.currentFaqPageIndex < this.faqMenuLastIndex) {
+                        this.currentFaqPageIndex++;
+                    }
+                }
+            },
+            sendFaqMessage(famMsg){
+                if(famMsg) {
+                    this.inputMessage = famMsg;
+                    this.sendMessage('', '');
+                }
+            },
+            faqSearchResultToHtml(str) { // 검색단어 글자색 적용
+                let temp = str.split(this.inputMessage);
+                if(temp.length === 2) {
+                    return temp[0] + '<span style="color:yellow;">' + this.inputMessage + '</span>' + temp[1];
+                } else {
+                    return str;
+                }
+            },
+            // e: 자주묻는질문(FAQ)
+
+
             capitalize(s) {
                 if (s.length < 1) {
                     return s;
@@ -1293,7 +1384,69 @@
                     "--color-bg": this.colorBg,
                     "--demo-bg-img": this.demoBgImg
                 };
-            }
+            },
+            faqMenuLastIndex() {
+                return Math.ceil(this.faqCategoryList.length/6)-1;
+            },
+            faqListTemp() {
+                return this.faqCategoryList.slice(this.currentFaqPageIndex*6, (this.currentFaqPageIndex*6)+6);
+            },
+            faqListFilterByKeyword() { // 자주묻는질문(메뉴) 검색 결과
+                if(this.inputMessage && this.inputMessage.length > 1) {
+                    return _.filter(this.totalQuestions, (res)=> {
+                        return res.replace(/\s/g, "").indexOf(this.inputMessage.replace(/\s/g, "")) > -1;
+                    })
+                } else {
+                    return [];
+                }
+            },
+            faqListFilterByCategory() { // 선택된 faqMenu에 따른 결과
+                let questions = [];
+                let category = _.find(this.faqCategoryList, {'title': this.selectedFaqCategory });
+                if(category) {
+                    questions = category.questions;
+                }
+                return questions;
+            },
+            frogueFaqWrapperStyle() {
+                let rtnObj = {};
+                let bottomVal = 50;
+                if(!this.faqBtnActive) {
+                    rtnObj['border'] = 'none';
+                }
+                if(this.adBuootnYn === 'true') {
+                    bottomVal += 38;
+                } else {
+                    bottomVal += 8;
+                }
+                if(this.isOpened) {
+                    bottomVal += 80;
+                }
+                // console.log(bottomVal);
+                rtnObj['bottom'] = bottomVal + 'px';
+                return rtnObj;
+            },
+            faqMenuWrapStyle(){
+                if(this.faqCategoryList.length > 3) {
+                    return { 'height': '140px' };
+                } else {
+                    return { 'height': '70px'};
+                }
+            },
+            frogueInputWrapperStyle() {
+                if(this.isBtnExtension === 'true') {
+                    return { 'padding-left': '94px' };
+                } else {
+                    return { 'padding-left': '52px' };
+                }
+            },
+            faqBtnStyle(){
+                if(this.isBtnExtension === 'true') {
+                    return { 'left': '52px' };
+                } else {
+                    return { 'left': '12px' };
+                }
+            },
         },
         mounted() {
 
@@ -1319,6 +1472,38 @@
                 this.frogueChatViewFlag = true;
             }, 2000);
 
+
+
+            this.totalQuestions = [
+                '자주 묻는 질문 01', '자주 묻는 질문 02',
+                '자주 묻는 질문 03', '자주 묻는 질문 04',
+                '자주 묻는 질문 05', '자주 묻는 질문 06',
+                '자주 묻는 질문 07', '자주 묻는 질문 08',
+                '자주 묻는 질문 09', '자주 묻는 질문 10',
+                '자주 묻는 질문 11', '자주 묻는 질문 12',
+                '자주 묻는 질문 13', '자주 묻는 질문 14',
+                '자주 묻는 질문 15', '자주 묻는 질문 16',
+                '자주 묻는 질문 17', '자주 묻는 질문 18',
+                '자주 묻는 질문 19', '자주 묻는 질문 20',
+                '자주 묻는 질문 21', '자주 묻는 질문 22',
+                '자주 묻는 질문 23', '자주 묻는 질문 24',
+            ];
+
+            this.faqCategoryList = [
+                { id:0, title: '카테고리 01', questions: ['자주 묻는 질문 01', '자주 묻는 질문 02'] },
+                { id:1, title: '카테고리 02', questions: ['자주 묻는 질문 03', '자주 묻는 질문 04'] },
+                { id:2, title: '카테고리 03', questions: ['자주 묻는 질문 05', '자주 묻는 질문 06'] },
+                { id:3, title: '카테고리 04', questions: ['자주 묻는 질문 07', '자주 묻는 질문 08'] },
+                { id:4, title: '카테고리 05', questions: ['자주 묻는 질문 09', '자주 묻는 질문 10'] },
+                { id:5, title: '카테고리 06', questions: ['자주 묻는 질문 11', '자주 묻는 질문 12'] },
+                { id:6, title: '카테고리 07', questions: ['자주 묻는 질문 13', '자주 묻는 질문 14'] },
+                { id:7, title: '카테고리 08', questions: ['자주 묻는 질문 15', '자주 묻는 질문 16'] },
+                { id:8, title: '카테고리 09', questions: ['자주 묻는 질문 17', '자주 묻는 질문 18'] },
+                { id:9, title: '카테고리 10', questions: ['자주 묻는 질문 19', '자주 묻는 질문 20'] },
+                { id:10, title: '카테고리 11', questions: ['자주 묻는 질문 21', '자주 묻는 질문 22'] },
+                { id:11, title: '카테고리 12', questions: ['자주 묻는 질문 23', '자주 묻는 질문 24'] },
+            ];
+
         },
         directives: {
             focus: {
@@ -1330,6 +1515,11 @@
             }
         }
     }
+
+
+
+
+
 </script>
 
 <style lang="scss">
@@ -2245,9 +2435,217 @@
             }
         }
 
+
+        .frogue-bottom-persistent_menu-wrap {
+            position: absolute;
+            bottom: 88px;
+            width: 100%;
+            border-top: 1px solid var(--color-main);
+            border-bottom: 1px solid var(--color-main);
+            color: #fff;
+            -webkit-transition: all 0.2s ease-out;
+            -moz-transition: all 0.2s ease-out;
+            -ms-transition: all 0.2s ease-out;
+            -o-transition: all 0.2s ease-out;
+            transition: all 0.2s ease-out;
+            z-index: 101;
+            &:before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: var(--color-main);
+                opacity: 0.8;
+            }
+            & > div {
+                position: relative;
+                z-index: 1;
+            }
+            ul {
+                list-style: none;
+                padding: 6px;
+                height: 72px;
+                overflow-y: auto;
+                &::-webkit-scrollbar {
+                    /*스크롤바 사이즈*/
+                    width: 8px;
+                    height: 5px;
+                }
+                &::-webkit-scrollbar-track {
+                    /*스크롤바 배경색*/
+                    background-color: #c4c4c4;
+                    border-left: 1px solid rgba(0,0,0,0.2);
+                }
+                &::-webkit-scrollbar-thumb {
+                    /*스크롤바 잡는 부분 색*/
+                    background-color: var(--color-main);
+                    border: 1px solid rgba(0,0,0,0.2);
+                    &:hover {
+                        background-color: rgba(0,0,0,6); /*스크롤바 잡는 부분 마우스 오버시 색*/
+                    }
+                }
+                li {
+                    line-height: 22px !important;
+                    margin-bottom: 16px;
+                    cursor: pointer;
+                }
+            }
+            .frogue-search-wrap {
+                ul {
+                    li {
+                        line-height: 1.2em !important;
+                        margin-bottom: 8px;
+                        span {
+                            color: #f5d019;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+
+            .frogue-menu-wrap {
+                overflow: auto;
+                padding: 10px 30px 0 40px;
+                i {
+                    font-style: normal;
+                    position: absolute;
+                    top: -38px;
+                    left: 10px;
+                    background: var(--color-main);
+                    border-radius: 6px;
+                    padding: 2px 6px 3px;
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        left: 12px;
+                        bottom: -6px;
+                        width: 0;
+                        height: 0;
+                        border-left: 6px solid transparent;
+                        border-right: 6px solid transparent;
+                        border-top: 6px solid var(--color-main);
+                    }
+                }
+                button {
+                    float: left;
+                    width: calc(100% / 3 - 10px);
+                    background: #ffffff;
+                    color: var(--color-main);
+                    text-align: center;
+                    height: 60px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    border-radius: 6px;
+                    border: 1px solid var(--color-main);
+                    margin: 0 10px 10px 0;
+                    &:hover {
+                        background: var(--color-highlight);
+                    }
+                }
+
+                span {
+                    position: absolute;
+                    top: 0;
+                    display: block;
+                    width: 32px;
+                    height: 100%;
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        border: solid #fff;
+                        border-width: 0 3px 3px 0;
+                        display: inline-block;
+                        padding: 6px;
+                        cursor: pointer;
+
+                    }
+                    &.prev {
+                        left: 0;
+                        &:before {
+                            left: 15px;
+                            transform: rotate(135deg);
+                            -webkit-transform: rotate(135deg);
+                        }
+                    }
+                    &.next {
+                        right: 0;
+                        &:before {
+                            right: 15px;
+                            transform: rotate(-45deg);
+                            -webkit-transform: rotate(-45deg);
+                        }
+                    }
+                }
+                /*span {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 0;
+                    height: 0;
+                    border-top: 20px solid transparent;
+                    border-bottom: 20px solid transparent;
+                    cursor: pointer;
+                    border-radius: 6px;
+                    &.prev {
+                        left: 4px;
+                        border-right:10px solid #fff;
+                    }
+                    &.next {
+                        right: 4px;
+                        border-left: 10px solid #fff;
+                    }
+                }*/
+            }
+            .frogue-menu-detail-wrap {
+                .menu-list_tit {
+                    position: relative;
+                    border-bottom: 1px solid #fff;
+                    padding: 16px 0;
+                    margin: 0 20px;
+                    button {
+                        position: absolute;
+                        top: 12px;
+                        border: 1px solid #fff;
+                        border-radius: 20px;
+                        background: #fff;
+                        cursor: pointer;
+                        padding: 1px 6px 2px;
+                        &:hover {
+                            background: var(--color-highlight);
+                        }
+                    }
+                    p {
+                        text-align: center;
+                        font-size: 1.2em;
+                        line-height: 1.1em;
+                        color: #fff;
+                        letter-spacing: 2px;
+                        width: calc(100% - 120px);
+                        margin: auto;
+                    }
+                }
+                .menu-list_cont {
+                    ul {
+                        max-height: 121px;
+                        height: 100%;
+                        li {
+                            font-size: 1.2em;
+                            text-align: center;
+                            line-height: 1.4em;
+                            font-weight: bold;
+                            padding: 0 20px;
+                        }
+                    }
+                }
+            }
+        }
+
         .frogue-input-wrapper {
             // position: relative;
-            padding: 0 16px 10px 48px;
+            padding: 0 16px 10px 90px;
             font-size: 14px;
             position: absolute;
             bottom: 0;
@@ -2311,6 +2709,34 @@
                 &:hover {
                     background: $frogue-color-highlight;
                     cursor: pointer;
+                }
+            }
+            .btn-menu {
+                position: absolute;
+                top: 8px;
+                left: 52px;
+                width: 36px;
+                height: 36px;
+                border: 0;
+                background: transparent;
+                cursor: pointer;
+                i {
+                    float: left;
+                    display: block;
+                    width: 12px;
+                    height: 12px;
+                    background: $frogue-color-button-bg;
+                    border: 2px solid var(--color-main);
+                    border-radius: 2px;
+                    margin: 0 1px 1px 0;
+                }
+                &.active {
+                    i {
+                        background: var(--color-main);
+                    }
+                }
+                &:hover {
+                    background: $frogue-color-highlight;
                 }
             }
             .btn-send {
